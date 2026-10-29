@@ -1,0 +1,557 @@
+{
+  "$defs": {
+    "ChangeEvent": {
+      "additionalProperties": false,
+      "description": "Material change that may invalidate previously accepted evidence.",
+      "properties": {
+        "component": {
+          "title": "Component",
+          "type": "string"
+        },
+        "new_version": {
+          "title": "New Version",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "occurred_on": {
+          "format": "date",
+          "title": "Occurred On",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component",
+        "new_version",
+        "description",
+        "occurred_on"
+      ],
+      "title": "ChangeEvent",
+      "type": "object"
+    },
+    "Claim": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "statement": {
+          "description": "What must be demonstrated.",
+          "title": "Statement",
+          "type": "string"
+        },
+        "requirement_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Requirement Ids",
+          "type": "array"
+        },
+        "phases": {
+          "items": {
+            "$ref": "#/$defs/Phase"
+          },
+          "minItems": 1,
+          "title": "Phases",
+          "type": "array"
+        },
+        "control_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Control Ids",
+          "type": "array"
+        },
+        "acceptance_criterion": {
+          "description": "Criterion against which evidence sufficiency is judged.",
+          "title": "Acceptance Criterion",
+          "type": "string"
+        },
+        "sufficiency": {
+          "$ref": "#/$defs/Sufficiency"
+        },
+        "status": {
+          "$ref": "#/$defs/ClaimStatus"
+        },
+        "accountable_role": {
+          "description": "Role accountable for the claim and its decision.",
+          "title": "Accountable Role",
+          "type": "string"
+        },
+        "reviewer_role": {
+          "description": "Role that reviews evidence sufficiency.",
+          "title": "Reviewer Role",
+          "type": "string"
+        },
+        "revalidation_triggers": {
+          "description": "Components whose material change reopens the claim, besides its evidence bindings.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Revalidation Triggers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "statement",
+        "requirement_ids",
+        "phases",
+        "acceptance_criterion",
+        "sufficiency",
+        "status",
+        "accountable_role",
+        "reviewer_role"
+      ],
+      "title": "Claim",
+      "type": "object"
+    },
+    "ClaimStatus": {
+      "enum": [
+        "open",
+        "accepted",
+        "reopened"
+      ],
+      "title": "ClaimStatus",
+      "type": "string"
+    },
+    "Control": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ControlStatus"
+        },
+        "evidence_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "description",
+        "status"
+      ],
+      "title": "Control",
+      "type": "object"
+    },
+    "ControlStatus": {
+      "enum": [
+        "planned",
+        "implemented",
+        "verified"
+      ],
+      "title": "ControlStatus",
+      "type": "string"
+    },
+    "Decision": {
+      "additionalProperties": false,
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/DecisionType"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "decided_by": {
+          "description": "Role id.",
+          "title": "Decided By",
+          "type": "string"
+        },
+        "decided_on": {
+          "format": "date",
+          "title": "Decided On",
+          "type": "string"
+        },
+        "claim_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Claim Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "decision",
+        "rationale",
+        "decided_by",
+        "decided_on"
+      ],
+      "title": "Decision",
+      "type": "object"
+    },
+    "DecisionType": {
+      "enum": [
+        "proceed",
+        "mitigate",
+        "restrict",
+        "suspend",
+        "decommission"
+      ],
+      "title": "DecisionType",
+      "type": "string"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "description": "e.g. 'red-team report', 'evaluation report', 'lineage record'.",
+          "title": "Type",
+          "type": "string"
+        },
+        "producer_role": {
+          "description": "Role id that produced the evidence.",
+          "title": "Producer Role",
+          "type": "string"
+        },
+        "uri": {
+          "description": "Storage reference (repository path, registry URI, ticket).",
+          "title": "Uri",
+          "type": "string"
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "produced_on": {
+          "format": "date",
+          "title": "Produced On",
+          "type": "string"
+        },
+        "valid_until": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Expiry of the evidence, if any.",
+          "title": "Valid Until"
+        },
+        "bindings": {
+          "description": "Versions the evidence applies to (provenance).",
+          "items": {
+            "$ref": "#/$defs/VersionBinding"
+          },
+          "title": "Bindings",
+          "type": "array"
+        },
+        "automation_hook": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Machine-readable source from which the evidence can be harvested (CI job, registry API).",
+          "title": "Automation Hook"
+        }
+      },
+      "required": [
+        "id",
+        "type",
+        "producer_role",
+        "uri",
+        "produced_on"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Phase": {
+      "description": "EVORA-AI lifecycle phases L1-L6.",
+      "enum": [
+        "L1",
+        "L2",
+        "L3",
+        "L4",
+        "L5",
+        "L6"
+      ],
+      "title": "Phase",
+      "type": "string"
+    },
+    "RequirementBinding": {
+      "additionalProperties": false,
+      "description": "Stable reference to an external requirement, gate, policy or risk criterion.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "description": "Governance source, e.g. 'GuIA/MGI', 'LGPD', 'OWASP LLM Top 10 (2025)'.",
+          "title": "Source",
+          "type": "string"
+        },
+        "reference": {
+          "description": "Item, article or gate within the source.",
+          "title": "Reference",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "reference"
+      ],
+      "title": "RequirementBinding",
+      "type": "object"
+    },
+    "RevalidationEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "event": {
+          "$ref": "#/$defs/ChangeEvent"
+        },
+        "previous_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Previous Version"
+        },
+        "reopened_claim_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reopened Claim Ids",
+          "type": "array"
+        },
+        "unaffected_claim_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unaffected Claim Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event",
+        "previous_version",
+        "reopened_claim_ids",
+        "unaffected_claim_ids"
+      ],
+      "title": "RevalidationEntry",
+      "type": "object"
+    },
+    "RiskProfile": {
+      "description": "Initial assurance profile, taken from the applicable framework.\n\nIn the Brazilian instantiation it mirrors the AIE scale. \"critical\" or\nequivalent categories in other frameworks map to HIGH or EXCESSIVE.",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "excessive"
+      ],
+      "title": "RiskProfile",
+      "type": "string"
+    },
+    "Role": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "independent": {
+          "default": false,
+          "description": "True if the role is organisationally independent of the delivery team.",
+          "title": "Independent",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "name"
+      ],
+      "title": "Role",
+      "type": "object"
+    },
+    "Sufficiency": {
+      "enum": [
+        "sufficient",
+        "conditional",
+        "insufficient"
+      ],
+      "title": "Sufficiency",
+      "type": "string"
+    },
+    "VersionBinding": {
+      "additionalProperties": false,
+      "description": "Component version to which a piece of evidence applies.",
+      "properties": {
+        "component": {
+          "description": "e.g. 'model:llm', 'index:vector-store', 'pipeline:ingestion'.",
+          "title": "Component",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component",
+        "version"
+      ],
+      "title": "VersionBinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "A SAIA assurance record for one AI system.",
+  "properties": {
+    "saia_version": {
+      "default": "0.1",
+      "title": "Saia Version",
+      "type": "string"
+    },
+    "system_id": {
+      "title": "System Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "purpose": {
+      "title": "Purpose",
+      "type": "string"
+    },
+    "context_of_use": {
+      "title": "Context Of Use",
+      "type": "string"
+    },
+    "affected_groups": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Affected Groups",
+      "type": "array"
+    },
+    "risk_profile": {
+      "$ref": "#/$defs/RiskProfile"
+    },
+    "current_phase": {
+      "$ref": "#/$defs/Phase"
+    },
+    "current_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Deployed version of each tracked component.",
+      "title": "Current Versions",
+      "type": "object"
+    },
+    "roles": {
+      "items": {
+        "$ref": "#/$defs/Role"
+      },
+      "title": "Roles",
+      "type": "array"
+    },
+    "requirements": {
+      "items": {
+        "$ref": "#/$defs/RequirementBinding"
+      },
+      "title": "Requirements",
+      "type": "array"
+    },
+    "claims": {
+      "items": {
+        "$ref": "#/$defs/Claim"
+      },
+      "title": "Claims",
+      "type": "array"
+    },
+    "controls": {
+      "items": {
+        "$ref": "#/$defs/Control"
+      },
+      "title": "Controls",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "residual_risk": {
+      "default": "",
+      "title": "Residual Risk",
+      "type": "string"
+    },
+    "decisions": {
+      "items": {
+        "$ref": "#/$defs/Decision"
+      },
+      "title": "Decisions",
+      "type": "array"
+    },
+    "revalidation_history": {
+      "items": {
+        "$ref": "#/$defs/RevalidationEntry"
+      },
+      "title": "Revalidation History",
+      "type": "array"
+    }
+  },
+  "required": [
+    "system_id",
+    "name",
+    "purpose",
+    "context_of_use",
+    "risk_profile",
+    "current_phase",
+    "roles",
+    "requirements",
+    "claims",
+    "controls",
+    "evidence"
+  ],
+  "title": "SAIARecord",
+  "type": "object"
+}

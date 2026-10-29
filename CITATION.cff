@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper and the artifact."
+title: "EVORA-AI SAIA artifact: executable assurance record, validator and selective revalidation"
+version: 0.1.0
+date-released: 2026-10-30
+license: Apache-2.0
+repository-code: "https://github.com/fernando-sc/evora-ai-app"
+authors:
+  - family-names: "da Silva Costa"
+    given-names: "Fernando"
+    affiliation: "University of Brasília (UnB)"
+  - family-names: "Marcelino Miranda"
+    given-names: "Ícaro"
+    affiliation: "Santo Digital"
+  - family-names: "Ladeira"
+    given-names: "Marcelo"
+    affiliation: "University of Brasília (UnB)"
+preferred-citation:
+  type: conference-paper
+  title: "EVORA-AI: An Evidence-Oriented Assurance Layer for Public-Sector AI Governance"
+  collection-title: "INCISCOS 2026"
+  year: 2026
+  authors:
+    - family-names: "da Silva Costa"
+      given-names: "Fernando"
+    - family-names: "Marcelino Miranda"
+      given-names: "Ícaro"
+    - family-names: "Ladeira"
+      given-names: "Marcelo"

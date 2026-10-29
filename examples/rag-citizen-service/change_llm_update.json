@@ -1,0 +1,6 @@
+{
+  "component": "model:llm",
+  "new_version": "vendor-llm-2026-10",
+  "description": "Provider releases and the agency deploys a new version of the external LLM.",
+  "occurred_on": "2026-10-20"
+}

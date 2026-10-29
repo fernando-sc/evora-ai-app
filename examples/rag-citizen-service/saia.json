@@ -1,0 +1,119 @@
+{
+  "saia_version": "0.1",
+  "system_id": "rag-citizen-service",
+  "name": "RAG assistant for citizen services (illustrative)",
+  "purpose": "Answer citizens' natural-language questions about a federal agency's services using institutional documents.",
+  "context_of_use": "Public web channel; answers are informational and do not constitute administrative decisions. Hypothetical system used to illustrate the EVORA-AI mechanics; no field data.",
+  "affected_groups": ["citizens using the channel", "agency service staff"],
+  "risk_profile": "high",
+  "current_phase": "L5",
+  "current_versions": {
+    "model:llm": "vendor-llm-2026-06",
+    "guardrail:io-filter": "guard-2.1.0",
+    "index:vector-store": "idx-2026-09-30",
+    "pipeline:ingestion": "ing-1.4.0",
+    "config:logging": "log-cfg-3",
+    "contract:llm-vendor": "ct-2026-01"
+  },
+  "roles": [
+    {"id": "product-owner", "name": "Product owner", "independent": false},
+    {"id": "security-eng", "name": "Security engineer", "independent": false},
+    {"id": "ml-eng", "name": "ML engineer", "independent": false},
+    {"id": "data-steward", "name": "Data steward", "independent": false},
+    {"id": "dpo", "name": "Data protection officer", "independent": false},
+    {"id": "contract-mgr", "name": "Contract manager", "independent": false},
+    {"id": "assurance-unit", "name": "Independent assurance unit (e.g., internal audit)", "independent": true},
+    {"id": "governance-committee", "name": "AI governance committee", "independent": false}
+  ],
+  "requirements": [
+    {"id": "REQ-LLM01", "source": "OWASP Top 10 for LLM Applications (2025)", "reference": "LLM01 Prompt Injection"},
+    {"id": "REQ-LLM02", "source": "OWASP Top 10 for LLM Applications (2025)", "reference": "LLM02 Sensitive Information Disclosure"},
+    {"id": "REQ-LGPD46", "source": "LGPD (Lei 13.709/2018)", "reference": "Art. 46 - security measures for personal data"},
+    {"id": "REQ-LLM04", "source": "OWASP Top 10 for LLM Applications (2025)", "reference": "LLM04 Data and Model Poisoning"},
+    {"id": "REQ-LLM09", "source": "OWASP Top 10 for LLM Applications (2025)", "reference": "LLM09 Misinformation"},
+    {"id": "REQ-LLM03", "source": "OWASP Top 10 for LLM Applications (2025)", "reference": "LLM03 Supply Chain"},
+    {"id": "REQ-GUIA-GATE", "source": "GuIA/MGI", "reference": "Phase-level conformity check before deployment (item id to be bound after the F0 corpus freeze)"}
+  ],
+  "claims": [
+    {
+      "id": "C-01", "statement": "User input cannot override system instructions or exfiltrate context beyond the accepted rate.",
+      "requirement_ids": ["REQ-LLM01", "REQ-GUIA-GATE"], "phases": ["L3", "L5"], "control_ids": ["CTL-01"],
+      "acceptance_criterion": "Adversarial suite passes with no critical finding; filter regression tests green on the deployed model and guardrail versions.",
+      "sufficiency": "sufficient", "status": "accepted",
+      "accountable_role": "product-owner", "reviewer_role": "assurance-unit", "revalidation_triggers": ["model:llm"]
+    },
+    {
+      "id": "C-02", "statement": "Personal data is not disclosed through retrieval or logs.",
+      "requirement_ids": ["REQ-LLM02", "REQ-LGPD46", "REQ-GUIA-GATE"], "phases": ["L2", "L5"], "control_ids": ["CTL-02", "CTL-03"],
+      "acceptance_criterion": "Indexed corpus classified with no personal data; access matrix reviewed; logs pseudonymised with retention <= policy.",
+      "sufficiency": "sufficient", "status": "accepted",
+      "accountable_role": "dpo", "reviewer_role": "assurance-unit", "revalidation_triggers": []
+    },
+    {
+      "id": "C-03", "statement": "Only validated, provenance-tracked documents enter the vector store.",
+      "requirement_ids": ["REQ-LLM04"], "phases": ["L2"], "control_ids": ["CTL-04"],
+      "acceptance_criterion": "100% of indexed documents have lineage records and passed ingestion validation for the deployed index version.",
+      "sufficiency": "sufficient", "status": "accepted",
+      "accountable_role": "data-steward", "reviewer_role": "assurance-unit", "revalidation_triggers": []
+    },
+    {
+      "id": "C-04", "statement": "Answers that could affect citizens are grounded in institutional sources or routed to human review.",
+      "requirement_ids": ["REQ-LLM09", "REQ-GUIA-GATE"], "phases": ["L4", "L5"], "control_ids": ["CTL-05"],
+      "acceptance_criterion": "Groundedness and error rates on the evaluation set within agreed thresholds for the deployed model and index; supervision protocol in force.",
+      "sufficiency": "sufficient", "status": "accepted",
+      "accountable_role": "product-owner", "reviewer_role": "assurance-unit", "revalidation_triggers": []
+    },
+    {
+      "id": "C-05", "statement": "Dependence on the external model provider is governed and model updates are detected before use.",
+      "requirement_ids": ["REQ-LLM03"], "phases": ["L3", "L6"], "control_ids": ["CTL-06"],
+      "acceptance_criterion": "Contract includes update notice and exit clauses; every deployed model version appears in the update log.",
+      "sufficiency": "conditional", "status": "accepted",
+      "accountable_role": "contract-mgr", "reviewer_role": "assurance-unit", "revalidation_triggers": ["model:llm"]
+    }
+  ],
+  "controls": [
+    {"id": "CTL-01", "description": "Context isolation; input/output filtering; adversarial evaluation", "status": "verified", "evidence_ids": ["EV-01", "EV-02"]},
+    {"id": "CTL-02", "description": "Data classification and access control on the indexed corpus", "status": "verified", "evidence_ids": ["EV-03", "EV-04"]},
+    {"id": "CTL-03", "description": "Log protection, pseudonymisation and retention", "status": "implemented", "evidence_ids": ["EV-05"]},
+    {"id": "CTL-04", "description": "Provenance/lineage controls and ingestion validation", "status": "verified", "evidence_ids": ["EV-06", "EV-07"]},
+    {"id": "CTL-05", "description": "Grounding checks; human review of high-impact answers; feedback channel", "status": "verified", "evidence_ids": ["EV-08", "EV-09"]},
+    {"id": "CTL-06", "description": "Contractual requirements; model-update monitoring; decommissioning plan", "status": "implemented", "evidence_ids": ["EV-10", "EV-11"]}
+  ],
+  "evidence": [
+    {"id": "EV-01", "type": "red-team report", "producer_role": "security-eng", "uri": "repo://assurance/redteam/2026-10-05.md",
+     "produced_on": "2026-10-05", "valid_until": "2027-04-05",
+     "bindings": [{"component": "model:llm", "version": "vendor-llm-2026-06"}, {"component": "guardrail:io-filter", "version": "guard-2.1.0"}]},
+    {"id": "EV-02", "type": "filter regression test log", "producer_role": "ml-eng", "uri": "ci://pipelines/guardrail-tests/run/812",
+     "produced_on": "2026-10-10", "bindings": [{"component": "guardrail:io-filter", "version": "guard-2.1.0"}],
+     "automation_hook": "ci:guardrail-tests"},
+    {"id": "EV-03", "type": "data inventory and classification", "producer_role": "data-steward", "uri": "catalog://datasets/citizen-faq",
+     "produced_on": "2026-09-30", "bindings": [{"component": "index:vector-store", "version": "idx-2026-09-30"}],
+     "automation_hook": "catalog-api:datasets/citizen-faq"},
+    {"id": "EV-04", "type": "access-control matrix", "producer_role": "security-eng", "uri": "repo://assurance/access-matrix.xlsx",
+     "produced_on": "2026-10-01", "valid_until": "2027-10-01"},
+    {"id": "EV-05", "type": "log retention policy and configuration", "producer_role": "dpo", "uri": "repo://ops/logging/policy.md",
+     "produced_on": "2026-09-15", "bindings": [{"component": "config:logging", "version": "log-cfg-3"}]},
+    {"id": "EV-06", "type": "lineage record", "producer_role": "data-steward", "uri": "catalog://lineage/idx-2026-09-30",
+     "produced_on": "2026-09-30", "bindings": [{"component": "index:vector-store", "version": "idx-2026-09-30"}, {"component": "pipeline:ingestion", "version": "ing-1.4.0"}],
+     "automation_hook": "catalog-api:lineage"},
+    {"id": "EV-07", "type": "ingestion validation log", "producer_role": "ml-eng", "uri": "ci://pipelines/ingestion/run/377",
+     "produced_on": "2026-09-30", "bindings": [{"component": "pipeline:ingestion", "version": "ing-1.4.0"}],
+     "automation_hook": "ci:ingestion-validation"},
+    {"id": "EV-08", "type": "evaluation report with error analysis", "producer_role": "ml-eng", "uri": "registry://evals/rag-citizen/2026-10-08",
+     "produced_on": "2026-10-08", "valid_until": "2027-01-08",
+     "bindings": [{"component": "model:llm", "version": "vendor-llm-2026-06"}, {"component": "index:vector-store", "version": "idx-2026-09-30"}],
+     "automation_hook": "eval-platform:rag-citizen"},
+    {"id": "EV-09", "type": "supervision protocol", "producer_role": "product-owner", "uri": "repo://ops/supervision-protocol.md",
+     "produced_on": "2026-10-02"},
+    {"id": "EV-10", "type": "dependency register and contract clauses", "producer_role": "contract-mgr", "uri": "repo://procurement/llm-vendor.md",
+     "produced_on": "2026-01-20", "bindings": [{"component": "contract:llm-vendor", "version": "ct-2026-01"}]},
+    {"id": "EV-11", "type": "model update log", "producer_role": "ml-eng", "uri": "registry://models/llm/history",
+     "produced_on": "2026-10-01", "automation_hook": "model-registry:llm/history"}
+  ],
+  "residual_risk": "Residual hallucination on out-of-scope questions mitigated by refusal and human escalation; C-05 accepted under conditional sufficiency pending exit-clause test.",
+  "decisions": [
+    {"decision": "proceed", "rationale": "All claims accepted by the independent assurance unit; C-05 conditional.",
+     "decided_by": "governance-committee", "decided_on": "2026-10-15", "claim_ids": ["C-01", "C-02", "C-03", "C-04", "C-05"]}
+  ],
+  "revalidation_history": []
+}
