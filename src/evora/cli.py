@@ -27,7 +27,7 @@ def _print_report(record: SAIARecord, as_of: date | None) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(prog="evora", description="EVORA-AI SAIA tooling")
+    parser = argparse.ArgumentParser(prog="evora", description="EvOrA-AI SAIA tooling")
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("schema", help="print the SAIA JSON Schema")
     p_val = sub.add_parser("validate", help="validate a SAIA record")

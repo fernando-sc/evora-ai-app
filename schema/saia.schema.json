@@ -292,7 +292,7 @@
       "type": "object"
     },
     "Phase": {
-      "description": "EVORA-AI lifecycle phases L1-L6.",
+      "description": "EvOrA-AI lifecycle phases L1-L6.",
       "enum": [
         "L1",
         "L2",

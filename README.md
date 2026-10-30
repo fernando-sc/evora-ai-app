@@ -1,8 +1,8 @@
-# EVORA-AI SAIA artifact
+# EvOrA-AI SAIA artifact
 
-Executable artifact accompanying the paper *EVORA-AI: An Evidence-Oriented Assurance Layer for Public-Sector AI Governance* (INCISCOS 2026).
+Executable artifact accompanying the paper *EvOrA-AI: An Evidence-Oriented Assurance Layer for Public-Sector AI Governance* (INCISCOS 2026).
 
-EVORA-AI is a framework-agnostic assurance layer. It binds each external governance requirement to explicit claims, controls, version-bound evidence, sufficiency criteria, accountable roles, decisions and revalidation triggers. These relationships are recorded in **SAIA (Simplified Algorithmic Impact Assessment)**, which is filled progressively across the lifecycle phases L1–L6.
+EvOrA-AI is a framework-agnostic assurance layer. It binds each external governance requirement to explicit claims, controls, version-bound evidence, sufficiency criteria, accountable roles, decisions and revalidation triggers. These relationships are recorded in **SAIA (Simplified Algorithmic Impact Assessment)**, which is filled progressively across the lifecycle phases L1–L6.
 
 ```text
 requirement → claim → control → evidence (version-bound) → sufficiency criterion → accountable role → decision / revalidation

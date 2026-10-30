@@ -1,4 +1,4 @@
-"""EVORA-AI: executable SAIA record model, validator and selective revalidation."""
+"""EvOrA-AI: executable SAIA record model, validator and selective revalidation."""
 
 from .indicators import indicators
 from .revalidation import affected_claims, apply_change
