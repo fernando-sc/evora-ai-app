@@ -3,7 +3,7 @@
   "system_id": "rag-citizen-service",
   "name": "RAG assistant for citizen services (illustrative)",
   "purpose": "Answer citizens' natural-language questions about a federal agency's services using institutional documents.",
-  "context_of_use": "Public web channel; answers are informational and do not constitute administrative decisions. Hypothetical system used to illustrate the EVORA-AI mechanics; no field data.",
+  "context_of_use": "Public web channel; answers are informational and do not constitute administrative decisions. Hypothetical system used to illustrate the EvOrA-AI mechanics; no field data.",
   "affected_groups": ["citizens using the channel", "agency service staff"],
   "risk_profile": "high",
   "current_phase": "L5",

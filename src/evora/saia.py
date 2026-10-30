@@ -1,6 +1,6 @@
 """SAIA (Simplified Algorithmic Impact Assessment) record model.
 
-Implements the minimal EVORA-AI assurance semantics (paper Table IV):
+Implements the minimal EvOrA-AI assurance semantics (paper Table IV):
 requirement binding, assurance claim, control binding, evidence identity,
 provenance/versioning, evidence sufficiency, accountability, temporal
 validity, revalidation trigger, decision and automation hook.
@@ -33,7 +33,7 @@ class RiskProfile(str, Enum):
 
 
 class Phase(str, Enum):
-    """EVORA-AI lifecycle phases L1-L6."""
+    """EvOrA-AI lifecycle phases L1-L6."""
 
     L1 = "L1"  # problem understanding
     L2 = "L2"  # data

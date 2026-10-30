@@ -1,4 +1,4 @@
-"""Validation of a SAIA record against the EVORA-AI traceability invariant.
+"""Validation of a SAIA record against the EvOrA-AI traceability invariant.
 
 The invariant (paper Sec. IV-B): every requirement is covered by a claim,
 every claim by at least one control, and every implemented control produces

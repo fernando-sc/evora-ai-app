@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "evora-ai"
 version = "0.1.0"
-description = "EVORA-AI: executable SAIA assurance record, validator and selective revalidation"
+description = "EvOrA-AI: executable SAIA assurance record, validator and selective revalidation"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">=3.10"

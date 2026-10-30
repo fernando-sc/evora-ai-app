@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the paper and the artifact."
-title: "EVORA-AI SAIA artifact: executable assurance record, validator and selective revalidation"
+title: "EvOrA-AI SAIA artifact: executable assurance record, validator and selective revalidation"
 version: 0.1.0
 date-released: 2026-10-30
 license: Apache-2.0
@@ -17,7 +17,7 @@ authors:
     affiliation: "University of Brasília (UnB)"
 preferred-citation:
   type: conference-paper
-  title: "EVORA-AI: An Evidence-Oriented Assurance Layer for Public-Sector AI Governance"
+  title: "EvOrA-AI: An Evidence-Oriented Assurance Layer for Public-Sector AI Governance"
   collection-title: "INCISCOS 2026"
   year: 2026
   authors:
