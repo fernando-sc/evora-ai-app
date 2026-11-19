@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite the paper and the artifact."
 title: "EvOrA-AI SAIA artifact: executable assurance record, validator and selective revalidation"
-version: 0.1.0
-date-released: 2026-10-30
+version: 0.1.1
+date-released: 2026-11-19
 license: Apache-2.0
 repository-code: "https://github.com/fernando-sc/evora-ai-app"
 authors:
@@ -11,7 +11,7 @@ authors:
     affiliation: "University of Brasília (UnB)"
   - family-names: "Marcelino Miranda"
     given-names: "Ícaro"
-    affiliation: "Santo Digital"
+    affiliation: "University of Brasília (UnB)"
   - family-names: "Ladeira"
     given-names: "Marcelo"
     affiliation: "University of Brasília (UnB)"
