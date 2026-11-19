@@ -5,6 +5,7 @@ version: 0.1.1
 date-released: 2026-11-19
 license: Apache-2.0
 repository-code: "https://github.com/fernando-sc/evora-ai-app"
+doi: "10.5281/zenodo.24358775"
 authors:
   - family-names: "da Silva Costa"
     given-names: "Fernando"
