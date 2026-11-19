@@ -1,5 +1,7 @@
 # EvOrA-AI SAIA artifact
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24358775.svg)](https://doi.org/10.5281/zenodo.24358775)
+
 Executable artifact accompanying the paper *EvOrA-AI: An Evidence-Oriented Assurance Layer for Public-Sector AI Governance* (INCISCOS 2026).
 
 EvOrA-AI is a framework-agnostic assurance layer. It binds each external governance requirement to explicit claims, controls, version-bound evidence, sufficiency criteria, accountable roles, decisions and revalidation triggers. These relationships are recorded in **SAIA (Simplified Algorithmic Impact Assessment)**, which is filled progressively across the lifecycle phases L1–L6.
@@ -48,6 +50,10 @@ A change event reopens only the claims whose evidence is bound to the changed co
 ## Scope and limitations
 
 The RAG instance is **hypothetical** and contains no field data. The indicators characterize the design of one illustrative record. They are **not** measurements of effort, decision latency or effectiveness, which are left to the next research cycle. Automatic harvesting of evidence from CI, registries or evaluation platforms is not implemented: the record stores automation hooks, and the validator checks version bindings.
+
+## Citation
+
+Artifact v0.1.1: [10.5281/zenodo.24358775](https://doi.org/10.5281/zenodo.24358775). The paper cites release `v0.1.0`, which has the same code apart from the EvOrA-AI spelling. To cite the latest version, use the concept DOI [10.5281/zenodo.24358774](https://doi.org/10.5281/zenodo.24358774). See `CITATION.cff`.
 
 ## License
 
